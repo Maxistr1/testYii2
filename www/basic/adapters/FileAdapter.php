@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\adapters;
 
 
 class FileAdapter
@@ -85,7 +85,7 @@ class FileAdapter
         $file = file(self::AUTH_FILE);
 
         if (!is_array($file)) {
-            throw new \Exception('Error write to file');
+            throw new \Exception('Error open file');
         }
 
         foreach ($file as $key => $row) {
@@ -108,6 +108,10 @@ class FileAdapter
         $response = false;
 
         $file = file(self::AUTH_FILE);
+
+        if (!is_array($file)) {
+            throw new \Exception('Error open file');
+        }
 
         if (!empty($condition)) {
             $row = self::findRow($condition);
@@ -142,6 +146,10 @@ class FileAdapter
         $response = false;
 
         $file = file(self::AUTH_FILE);
+
+        if (!is_array($file)) {
+            throw new \Exception('Error open file');
+        }
 
         if (!empty($data) && !empty($condition)) {
             $row = self::findRow($condition);

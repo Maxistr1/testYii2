@@ -8,11 +8,14 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property User|null $user This property is read-only.
+ * @property UserIdentity|null $user This property is read-only.
  *
  */
 class LoginForm extends Model
 {
+    const PERIOD_TIME = 5*60;
+    const COUNT_ATTEMPT = 3;
+
     public $username;
     public $password;
     public $rememberMe = true;
@@ -44,12 +47,41 @@ class LoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
+        $session = Yii::$app->session;
+        $time = $session->get('time');
+
+        $period = (time() - $time);
+        if ($period > self::PERIOD_TIME)
+        {
+            $session->destroy();
+        }
+
+        $period = self::PERIOD_TIME - $period;
+        $count = $session->get('count');
+
+        if (empty($count) && $count!== 0) {
+            $session->set('count', self::COUNT_ATTEMPT - 1);
+            $session->set('time', time());
+        }
+
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                if (!empty($count)) {
+                    $session->set('count', $count - 1);
+                }
+                if($count !== 0)
+                {
+                    $this->addError($attribute, 'Incorrect username or password.');
+                }
             }
+        }
+
+        if($count === 0)
+        {
+            $this->addError($attribute, 'Incorrect username or password. Try after '
+                . $period . ' sec');
         }
     }
 
@@ -68,12 +100,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return UserIdentity|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = UserIdentity::findByUsername($this->username);
         }
 
         return $this->_user;

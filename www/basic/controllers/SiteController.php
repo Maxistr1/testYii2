@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UserDTO;
 use Faker\Provider\File;
 use Yii;
 use yii\filters\AccessControl;
@@ -10,7 +11,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\models\FileAdapter;
+use app\adapters\FileAdapter;
 
 class SiteController extends Controller
 {
@@ -66,11 +67,40 @@ class SiteController extends Controller
         var_dump('s' . FileAdapter::getStatusFile());
 //        var_dump('s' . FileAdapter::clearFile());
        // FileAdapter::createFile();
-      //   FileAdapter::createRow("string4");
+      //  FileAdapter::createRow("string4");
         var_dump(FileAdapter::findRow(3));
 //        var_dump(FileAdapter::deleteRow('tring'));
       //  var_dump(FileAdapter::updateRow('string1','2'));
+      //  var_dump(get_class_vars(UserDTO::class));
         return $this->render('index');
+    }
+
+    // Очищает файл пользователей и устанавливает дефолтных
+    public function actionSetdata()
+    {
+        FileAdapter::clearFile();
+        FileAdapter::createRow(json_encode([
+            'id' => '100',
+            'username' => 'admin',
+            'password' => 'admin',
+            'authKey' => 'test100key',
+            'accessToken' => '100-token',
+        ]));
+        FileAdapter::createRow(json_encode([
+            'id' => '101',
+            'username' => 'demo',
+            'password' => 'demo',
+            'authKey' => 'test101key',
+            'accessToken' => '101-token',
+        ]));
+        FileAdapter::createRow(json_encode([
+            'id' => '102',
+            'username' => 'test',
+            'password' => 'test',
+            'authKey' => 'test102key',
+            'accessToken' => '102-token',
+        ]));
+        return null;
     }
 
     /**
