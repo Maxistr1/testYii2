@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use Faker\Provider\File;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -9,6 +10,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\FileAdapter;
 
 class SiteController extends Controller
 {
@@ -61,6 +63,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        var_dump('s' . FileAdapter::getStatusFile());
+//        var_dump('s' . FileAdapter::clearFile());
+       // FileAdapter::createFile();
+      //   FileAdapter::createRow("string4");
+        var_dump(FileAdapter::findRow(3));
+//        var_dump(FileAdapter::deleteRow('tring'));
+      //  var_dump(FileAdapter::updateRow('string1','2'));
         return $this->render('index');
     }
 
