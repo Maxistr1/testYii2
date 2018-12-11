@@ -1,3 +1,3 @@
-{"id":"100","username":"admin","password":"admin","authKey":"test100key","accessToken":"100-token"}
-{"id":"101","username":"demo","password":"demo","authKey":"test101key","accessToken":"101-token"}
-{"id":"102","username":"test","password":"test","authKey":"test102key","accessToken":"102-token"}
+{"id":"100","username":"admin","password":"admin","authKey":"test100key","accessToken":"100-token","userGroup":1}
+{"id":"101","username":"demo","password":"demo","authKey":"test101key","accessToken":"101-token","userGroup":2}
+{"id":"102","username":"test","password":"test","authKey":"test102key","accessToken":"102-token","userGroup":2}

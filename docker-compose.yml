@@ -16,6 +16,8 @@ services:
 
     php-fpm:
       build: phpdocker/php-fpm
+      environment:
+        - PHP_IDE_CONFIG=serverName=test
       container_name: test-php-fpm
       working_dir: /application
       volumes:

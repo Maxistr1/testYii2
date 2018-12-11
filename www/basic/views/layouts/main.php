@@ -11,6 +11,10 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
+$adminLink = '';
+if (isset($this->params['userGroup']) && ($this->params['userGroup'] === \app\controllers\AbstractBaseController::ADMIN_ROLE)) {
+    $adminLink = ['label' => 'SetData', 'url' => ['/site/setdata']];
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -41,6 +45,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
+            $adminLink,
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

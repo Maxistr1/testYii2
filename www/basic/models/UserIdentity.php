@@ -11,6 +11,7 @@ class UserIdentity extends \yii\base\BaseObject implements \yii\web\IdentityInte
     public $username;
     public $password;
     public $authKey;
+    public $userGroup;
 
     /**
      * @return mixed
@@ -58,6 +59,22 @@ class UserIdentity extends \yii\base\BaseObject implements \yii\web\IdentityInte
     public function setAccessToken($accessToken)
     {
         $this->accessToken = $accessToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserGroup()
+    {
+        return $this->userGroup;
+    }
+
+    /**
+     * @param mixed $userGroup
+     */
+    public function setUserGroup($userGroup)
+    {
+        $this->userGroup = $userGroup;
     }
 
 
